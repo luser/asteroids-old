@@ -190,7 +190,18 @@ function Asteroids() {
                 }
                 self.loaded = true;
               }, false);
-            this.channels[0].src = url;
+            var ext = "";
+            // Safari seems to be unable to play these wav files,
+            // or just lying about being able to play wav.
+            if (this.channels[0].canPlayType("audio/mpeg")) {
+              ext = ".mp3";
+            }
+            else if (this.channels[0].canPlayType("audio/wav")) {
+              ext = ".wav";
+            }
+            if (ext != "")
+              this.channels[0].src = url + ext;
+
             this.channels[0].load();
           }
         };
@@ -344,8 +355,8 @@ function Asteroids() {
 
         // Sound effects
         this.sfx = {
-          pew: new SFX("http://asteroids.s3.amazonaws.com/pew.wav"),
-          boom: new SFX("http://asteroids.s3.amazonaws.com/boom.wav")
+          pew: new SFX("http://asteroids.s3.amazonaws.com/pew"),
+          boom: new SFX("http://asteroids.s3.amazonaws.com/boom")
         };
 
 	// things to shoot is everything textual and an element of type not specified in types AND not a navigation element (see further down)
