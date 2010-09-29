@@ -169,23 +169,42 @@ function Asteroids() {
 		}
 	};
 
+        const NUM_CHANNELS = 4;
         function SFX(url) {
           this.loaded = false;
           if ('Audio' in window) {
             var self = this;
-            this.audio = Audio();
-            this.audio.addEventListener('canplaythrough', function() {
-                                          self.loaded = true;
-                                        }, false);
-            this.audio.src = url;
-            this.audio.load();
+            this.channels = [];
+            this.channels.push(new Audio());
+            this.channels[0].playing = false;
+            this.channels[0].addEventListener('canplaythrough',
+              function() {
+                for (var i=1; i<NUM_CHANNELS; i++) {
+                  self.channels.push(self.channels[0].cloneNode(true));
+                  self.channels[i].playing = false;
+                }
+                for (i=0; i<NUM_CHANNELS; i++) {
+                  self.channels[i].addEventListener('ended', function() {
+                                                      this.playing = false;
+                                                    }, false);
+                }
+                self.loaded = true;
+              }, false);
+            this.channels[0].src = url;
+            this.channels[0].load();
           }
         };
 
         SFX.prototype = {
           play: function()  {
             if (this.loaded) {
-              this.audio.play();
+              for (var i=0; i<NUM_CHANNELS; i++) {
+                if (!this.channels[i].playing) {
+                  this.channels[i].playing = true;
+                  this.channels[i].play();
+                  break;
+                }
+              }
             }
           }
         };
