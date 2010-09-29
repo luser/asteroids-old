@@ -36,10 +36,10 @@
 		<div id="wrapper">
 			<h1>Bored?</h1>
 		
-			<p><a id="doit" href="javascript:var%20s%20=%20document.createElement('script');s.type='text/javascript';document.body.appendChild(s);s.src='http://erkie.github.com/asteroids.min.js';void(0);" title="Click or drag me to your bookmarks bar and click on your webpage of choice">Kick ass</a>
+			<p><a id="doit" href="" title="Click or drag me to your bookmarks bar and click on your webpage of choice">Kick ass</a>
 			</p>
 			
-			<p><a href="javascript:var%20s%20=%20document.createElement('script');s.type='text/javascript';document.body.appendChild(s);s.src='http://erkie.github.com/asteroids.min.js';void(0);">Drag this bookmarklet to your bookmarks bar or a tab and start having some fun on other pages too!</a></p>
+			<p><a id="bookmarklet" href="">Drag this bookmarklet to your bookmarks bar or a tab and start having some fun on other pages too!</a></p>
 			
 			<p style="clear:both"><strong>Tip:</strong> It works great to vaporize annoying ads.</p>
 			<!--<p><strong>Tip #2:</strong> I forgot</p>-->
@@ -59,5 +59,14 @@
 			
 			<p><small>Feel free to do whatever you want with it. But remember you saw it first here!</small></p>
 		</div>
+                <script type="text/javascript">
+                   var originalurl = "http://erkie.github.com/";
+                   var code = "javascript:var%20s%20=%20document.createElement('script');s.type='text/javascript';document.body.appendChild(s);s.src='http://erkie.github.com/asteroids.min.js';void(0);";
+                   if (window.location != originalurl)
+                     code = code.replace(originalurl,
+                                         window.location.href);
+                   document.getElementById("doit").href = code;
+                   document.getElementById("bookmarklet").href = code;
+                </script>
 	</body>
 </html>
